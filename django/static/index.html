@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" xmlns="http://www.w3.org/1999/html"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
+        .top-buffer { margin-top:40px;}
+        .top-buffer1 { margin-top:20px; }
+        .top-buffer2 { margin-top:5px; }
+        .local-center { text-align:center; }
+        .thumbnail {
+            border: 0 none;
+            box-shadow: none;
+        }
+
+        .md-fsize { font-size:13px; }
+        .sm-fsize { font-size:12px; }
+        .image-local {
+            width: auto;
+            max-height: 150px;
+            /*height: 150px;*/
+        }
+
+    </style>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <!--link rel="stylesheet" href="/css/color.css"-->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+
+    <script src="/js/vendor/modernizr-2.6.2.min.js"></script>
+    <script src="/js/float.js"></script>
+</head>
+<body>
+<!--[if lt IE 7]>
+<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to
+    improve your experience.</p>
+<![endif]-->
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+
+            </button>
+            <a class="navbar-brand" href="/">第一站</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                {% if user.username %}
+                <li><a href="/accounts/my_account/">我的帐户</a></li>
+                {% endif %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">联系我们 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li class="divider"></li>
+                        <li><a href="/accounts/question_answer/">常见问题及回答</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form action="." class="navbar-form navbar-right"  method='post' name="login">{% csrf_token %}
+                {% if user.username %}
+                    <span style="color: #ffffff;margin: 10px">您好 {{ user.username }}! </span>
+                    <button  type="submit" id="btn_logout"class="btn btn-danger"><a href="/accounts/logout/"  style="color: white">退出</a></button>
+                {% else %}
+                    <div class="form-group">
+                        <p>{{form.username}}</p>
+                        {{form.username.errors}}
+                    </div>
+                    <div class="form-group">
+                        <p>{{form.password}}</p>
+                       {{form.password.errors}}
+                    </div>
+                    <button  type="submit" id="btn_login"class="btn btn-success">登陆</button>
+                    <input type="hidden" name="next" value="/">
+                    <button id="btn_regist"class="btn btn-danger"><a href="/accounts/create_user/" style="color: white">注册</a></button>
+                {% endif %}
+            </form>
+        </div>
+        <!--/.navbar-collapse -->
+    </div>
+</div>
+
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<!--put a carousel here-->
+<!--<input type="text" size="50" placeholder="输入商品URL" class="form-control">-->
+<!--div class="jumbotron"-->
+    <div class="container top-buffer">
+
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner" >
+                <div class="item active">
+                    <img src="/img/carousel/banner-1.jpg " alt="Antennae Galaxies" />
+                    <div class="container">
+                        <div class="carousel-caption .col-sm-2 col-sm-offset-6">
+                            <p><a class="btn btn-sm btn-primary" href="/accounts/create_user/" role="button">注册第一站</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <a href=#>
+                        <img src="/img/carousel/banner-2.jpg" alt="Carina Caterpillar" />
+                    </a>
+
+                </div>
+                <div class="item">
+                    <a href=#>
+                        <img src="/img/carousel/banner-3.jpg" alt="Light Echo" />
+                    </a>
+                </div>
+
+            </div><!-- .carousel-inner -->
+            <!--  next and previous controls here
+                  href values must reference the id for this carousel -->
+            <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+            <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+        </div><!-- .carousel -->
+    </div>
+<!--/div-->
+
+
+</body>
+</html>

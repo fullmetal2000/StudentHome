@@ -1,0 +1,31 @@
+<style>
+.app-footer
+{
+    position: absolute;
+    width: 100%;
+    bottom: 8px;
+    padding-left: 36px;
+    padding-right: 36px;
+}
+</style>
+
+<div ng-controller="FooterCtrl" class="app-footer">
+
+    <div id="bottomNav">
+        <a href="#/" class="button medium" title="{{ t('shared.menu.home') }}">{{ t('shared.menu.home') }}</a> |
+        <a href="#/incidents"title="{{ t('shared.menu.monitor') }}">{{ t('shared.menu.monitor') }}</a> |
+        <a href="#/ntr/plan"title="{{ t('shared.menu.ntr/plan') }}">{{ t('shared.menu.ntr/plan') }}</a> |
+
+        <a id = 'support' title="{{ t('pagefooter.support') }}"
+            ng-click="showSupportDialog()">{{ t('pagefooter.support') }}</a> |
+        <a href="#/admin" title="{{ t('pagefooter.update') }}">{{ t('pagefooter.update') }}</a>
+    </div>
+
+    <div class="copyright">
+        {{ t('pagefooter.copyright') }}<span itemprop="copyrightYear">2013</span> <span itemprop="copyrightHolder">{{ t('shared.companyname') }}</span>
+        <span id="buildNumber">{{ buildNumber }}</span>
+    </div>
+
+
+   
+</div>
