@@ -1,20 +1,20 @@
 <div ng-controller="MainCtrl" >
-<div class="header">
-  <ul class="nav nav-pills pull-right">
-    <li class="active"><a ng-href="#">Home</a></li>
-    <li><a ng-href="#">About</a></li>
-    <li><a ng-href="#">Contact</a></li>
-  </ul>
-  <h3 class="text-muted">StudentHome</h3>
-</div>
 
 
 
   <tabset >
-    <tab heading="School Location">School location</tab>
-    <tab heading="School resources">School resources</tab>
+    <tab heading="School Location">
+      <a ui-sref="route1">Route 1</a>
+    </tab>
+    <tab heading="School resources">
+      <a ui-sref="route2">Route 2</a>
+    </tab>
     <tab heading="How to apply">How to apply</tab>
   </tabset>
 
-
+  <div class="row">
+    <div class="span12">
+      <div class="well" ui-view></div>        
+    </div>
+  </div>  
 </div>

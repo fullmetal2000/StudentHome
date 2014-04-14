@@ -5,41 +5,41 @@ angular
     'ngCookies',
     'ngResource',
     'ngSanitize',
-    'ngRoute',
+    'ui.router',
     'sth.home',
     'sth.login',
     'ui.bootstrap'
 
-  ])
-  .config(function ($routeProvider) {
-    $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
-      })
-      .when('/login', {
-        templateUrl: 'views/login.html',
-        controller: 'LoginCtrl'
-      })
-      .otherwise({
-        redirectTo: '/'
-      });
-  });
-//   .controller('MainCtrl',['$scope','$rootScope','$http',function($scope, $rootScope, $http){
-//     console.log('this is app.js')
-
-// var TabsDemoCtrl = function ($scope) {
-//   $scope.tabs = [
-//     { title:"Dynamic Title 1", content:"Dynamic content 1" },
-//     { title:"Dynamic Title 2", content:"Dynamic content 2", disabled: true }
-//   ];
-
-//   $scope.alertMe = function() {
-//     setTimeout(function() {
-//       alert("You've selected the alert tab!");
-//     });
-//   };
-
-//   $scope.navType = 'pills';
-
-//   }])
+  ]).config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
+ // For any unmatched url, send to /route1
+      
+      $stateProvider
+        .state('login',{
+          url:"/login",
+          templateUrl:"views/login.html"
+        })
+        .state('page1', {
+            url: "/page1",
+            templateUrl: "views/page1.html"
+        })
+          .state('page1.list', {
+              url: "/list",
+              templateUrl: "route1.list.html",
+              controller: function($scope){
+                $scope.items = ["A", "List", "Of", "Items"];
+              }
+          })
+          
+        .state('page2', {
+            url: "/page2",
+            templateUrl: "views/page2.html"
+        })
+          .state('page2.list', {
+              url: "/list",
+              templateUrl: "route2.list.html",
+              controller: function($scope){
+                $scope.things = ["A", "Set", "Of", "Things"];
+              }
+          })
+        $urlRouterProvider.otherwise('/');
+    }])
