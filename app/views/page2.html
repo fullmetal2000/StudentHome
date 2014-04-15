@@ -1,1 +1,161 @@
-<div>page2</div>
+<div ng-controller="Page2Ctrl" >
+<div webix-ui type="space"> <!--layout rows with type "space" are created-->
+    <!-- <div height="35">Header {{app}}</div> <!--Webix template is inited --> -->
+    <div height="450" view="cols" type="wide" margin="10"> <!--Webix layout cols are inited-->
+        <div width="200"> 
+            <input type="text" placeholder="Type here" ng-model="app">
+        </div>
+        <div view="resizer"></div>
+        <div view="tabview">
+            <div header="Tab1">
+                1. Some content here
+            </div>
+            <div header="Tab2">
+                2. Other content here
+            </div>
+        </div>
+    </div>
+    <div height="35">Footer</div>
+  </div>
+
+<!--script>
+webix.skin.air.layoutPadding.space = 12;
+webix.skin.air.layoutMargin.space = 12;
+var economic_chart = {   		
+	id: "economic",
+	view: "chart",
+	type: "bar",
+	value: "#sales#",
+	label: "",
+
+	barWidth:1000,
+	radius:0,
+	gradient:"falling",
+
+	xAxis:{
+		title:"Sales per year",
+		template:"#year#"
+	},
+	yAxis:{
+		title:"Sales,million"
+	}	
+};
+var cities_table = {   
+	id:"cities",
+	view:"datatable",
+	columns:[
+		{ map:"#cell[0]#", header:"City name", 	sort:"string",     fillspace:true },
+		{ map:"#cell[1]#", header:"Population", sort:"int",  width:100 },
+		{ map:"#cell[2]#", header:"C(n)", 		sort:"int",  width:50 },
+		{ map:"#cell[3]#", header:"R(n)", 		sort:"int",  width:50 }
+	],
+
+	select:"cell", multiselect:true, 
+	blockselect:true, clipboard:"copy",
+	scrollX:false
+};
+var countries_table = {
+	id:"countries",
+	view:"list",
+	template:"html->data_template",
+
+	url:"./common/places.xml?4",
+	datatype:"xml",
+	defaultData:{ dsc:"" },
+
+	select:true,
+	on:{ "onafterselect":country_selected },
+	type:{ height: 84 },
+	ready:function(){  //select USA
+		this.select(6);
+	}
+};
+
+var tabbar = { view:'tabview', 
+	tabbar:{ optionWidth:150, value: 'map', options:[
+		{ value: 'Map', id: 'map'},
+		{ value: 'Cities', id: 'cities'},
+		{ value: 'Economic', id: 'economic'}
+	]},
+	cells:[
+		{ id:"map", view:"google-map" },
+		cities_table,
+		economic_chart
+	]
+};
+
+
+webix.ready(function(){
+
+	var appui = {
+		type:"space", cols:[
+			{
+				width: 400, css:"bigHeader",
+				header:"Countries", headerHeight:45,
+				body: countries_table
+			}, 
+			{ view:"resizer" },
+			{ margin:10, rows:[
+				tabbar,
+				{
+					header:"Description",
+					height: 200,
+					body:{
+						id:"dsc",
+						template:"#dsc#",
+						scroll:"y"
+					}
+				}]
+			}
+		]
+	};
+	webix.ui({ rows:[
+		{ view:"navbar", value:"geo" },
+		appui
+	]});
+
+	$$("dsc").bind($$('countries'));
+});
+
+
+	
+/*! item in list selected*/
+function country_selected(id) {
+	var item = $$("countries").getItem(id);
+	//show position on map
+	show_position(item.lat, item.lng, parseInt(item.zoom));
+
+	//load new data in chart
+	$$('economic').clearAll();
+	$$('economic').parse(item.chart, "xml");
+
+	//load new data in list
+	$$('cities').clearAll();
+	$$('cities').parse(item.cities, "legacy");
+}
+
+function show_position(lat, lng, zoom) {
+	if (window.google){ //google api is ready
+		var myLatlng = new google.maps.LatLng(lat, lng);
+		$$('map').map.setOptions({
+			zoom: zoom,
+			center: myLatlng,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		});
+	}
+}
+
+webix.DataDriver.legacy = webix.extend({
+	records:"/*/row",
+	tagToObject:function(tag,z){
+		if (tag.tagName == "row"){
+			tag.setAttribute("stack", "1");
+			return { cell: webix.DataDriver.xml.tagToObject(tag, z)  };
+		}
+
+		return webix.DataDriver.xml.tagToObject(tag, z);
+	}
+}, webix.DataDriver.xml);
+
+</script-->
+</div>

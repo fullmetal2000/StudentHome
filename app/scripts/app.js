@@ -8,6 +8,8 @@ angular
     'ui.router',
     'sth.home',
     'sth.login',
+    'sth.page1',
+    'sth.page2',
     'ui.bootstrap'
 
   ]).config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){

@@ -1,1 +1,12 @@
-<div>page1</div>
+<div ng-controller="Page1Ctrl" >
+	<!-- <div webix-ui type="space">  -->
+	<!-- charrt -->
+	<div style="width:500px; height:200px;">
+    <div webix-ui view="chart" id="mychart" webix-data="lines" type="bar" value="#sales#" borderless="true"></div>
+    </div>
+ 
+    <button ng-click="changeLine('line')">Show Line Chart</button>
+    <button ng-click="changeLine('bar')">Show bar Chart</button>
+    <button ng-click="changeLine('pie')">Show pie Chart</button>
+	<!-- </div> -->
+</div>
