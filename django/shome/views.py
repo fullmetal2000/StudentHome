@@ -12,6 +12,61 @@ from django.template import RequestContext
 import logging
 logger = logging.getLogger(__name__)
 
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from shome.models import UniversityInfo
+from shome.serializers import UniversitySerializer
+from rest_framework.renderers import JSONRenderer
+from rest_framework.parsers import JSONParser
+
+import csv
+
+def import_csv(file_csv):
+    records = csv.reader(file_csv)
+    for uinfo in records:
+        university = UniversityInfo.objects.filter(name = uinfo[0])
+        if university.count() == 0:
+            univ = UniversityInfo()
+            univ.name         = uinfo[0]
+            univ.url          = uinfo[1]
+            univ.introduction = uinfo[2]
+            univ.ranking      = uinfo[3]
+            univ.studentnum   = uinfo[4]
+            univ.fee          = uinfo[5]
+            univ.image        = uinfo[6]
+            univ.apartment    = uinfo[7]
+            univ.food         = uinfo[8]
+            univ.housing      = uinfo[9]
+            univ.car          = uinfo[10]
+            univ.translink    = uinfo[11]
+            univ.shopping     = uinfo[12]
+            univ.tourist      = uinfo[13]
+            univ.sports       = uinfo[14]
+            univ.googlemaps   = uinfo[15]
+            univ.save()
+
+
+class JSONResponse(HttpResponse):
+    def __init__(self, data, **kwargs):
+        content = JSONRenderer().render(data)
+        kwargs['content_type'] = 'application/json'
+        super(JSONResponse, self).__init__(content, **kwargs)
+
+@csrf_exempt
+def university_info(request):
+    if request.method == 'GET':
+        university = UniversityInfo.objects.all()
+        serializer = UniversitySerializer(university, many=True)
+        return JSONResponse(serializer.data)
+
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = UniversitySerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JSONResponse(serializer.data, status=201)
+        return JSONResponse(serializer.errors, status=400)
+
 def mainpage_user_login(request):
     if request.method == 'POST':
         username = request.POST['username']
