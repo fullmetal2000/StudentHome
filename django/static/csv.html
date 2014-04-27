@@ -16,17 +16,15 @@
 </head>
 <body>
 
-<div class="container top-buffer custom-form">
-    <form class="form-signin" role="form" action="." method="post">{% csrf_token %}
-        <h3 class="form-signin-heading">请登录</h3>
-        {{form.username}}
-        {{form.password}}
-        <label class="checkbox">
-          <input type="checkbox" value="remember-me"> 记住我
-        </label>
-        <button type="submit" class="btn btn-mid btn-primary btn-block">登录</button>
-         <input type="hidden" name="next" value="/">
-    </form>
+<div class="container">
+    {% if user.is_superuser %}
+    <form role="form" action="." method="post" enctype="multipart/form-data">{% csrf_token %}
+        <div class="input-append">
+            {{form}}
+            <button type="submit" id="import_csv" class="btn btn-success">Submit</button>
+        </div>
+    <form>
+    {% endif %}
 </div>
 
 </body>

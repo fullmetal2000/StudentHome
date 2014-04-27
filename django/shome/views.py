@@ -9,8 +9,6 @@ from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.template import RequestContext
 
-import logging
-logger = logging.getLogger(__name__)
 
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -20,31 +18,51 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 
 import csv
+from forms import UploadFileForm
+
+
+class UnivInfoNum:
+    name, url, introduction, ranking,\
+    studentnum, fee, image, apartment,\
+    food, housing, car, translink,\
+    shopping, tourist, sports, googlemaps = range(16)
 
 def import_csv(file_csv):
-    records = csv.reader(file_csv)
+    records = csv.reader(file_csv, delimiter='#')
     for uinfo in records:
-        university = UniversityInfo.objects.filter(name = uinfo[0])
+        university = UniversityInfo.objects.filter(name = uinfo[UnivInfoNum.name])
         if university.count() == 0:
             univ = UniversityInfo()
-            univ.name         = uinfo[0]
-            univ.url          = uinfo[1]
-            univ.introduction = uinfo[2]
-            univ.ranking      = uinfo[3]
-            univ.studentnum   = uinfo[4]
-            univ.fee          = uinfo[5]
-            univ.image        = uinfo[6]
-            univ.apartment    = uinfo[7]
-            univ.food         = uinfo[8]
-            univ.housing      = uinfo[9]
-            univ.car          = uinfo[10]
-            univ.translink    = uinfo[11]
-            univ.shopping     = uinfo[12]
-            univ.tourist      = uinfo[13]
-            univ.sports       = uinfo[14]
-            univ.googlemaps   = uinfo[15]
+            univ.name         = uinfo[UnivInfoNum.name]
+            univ.url          = uinfo[UnivInfoNum.url]
+            univ.introduction = uinfo[UnivInfoNum.introduction]
+            univ.ranking      = uinfo[UnivInfoNum.ranking]
+            univ.studentnum   = uinfo[UnivInfoNum.studentnum]
+            univ.fee          = uinfo[UnivInfoNum.fee]
+            univ.image        = uinfo[UnivInfoNum.image]
+            univ.apartment    = uinfo[UnivInfoNum.apartment]
+            univ.food         = uinfo[UnivInfoNum.food]
+            univ.housing      = uinfo[UnivInfoNum.housing]
+            univ.car          = uinfo[UnivInfoNum.car]
+            univ.translink    = uinfo[UnivInfoNum.translink]
+            univ.shopping     = uinfo[UnivInfoNum.shopping]
+            univ.tourist      = uinfo[UnivInfoNum.tourist]
+            univ.sports       = uinfo[UnivInfoNum.sports]
+            univ.googlemaps   = uinfo[UnivInfoNum.googlemaps]
             univ.save()
 
+@login_required
+def add_csv(request):
+    if request.method == "POST":
+        form = UploadFileForm(request.POST, request.FILES)
+        file_csv = request.FILES['file']
+        import_csv(file_csv)
+    else:
+        form = UploadFileForm()
+
+    username = request.user.username
+    return render_to_response("csv.html", locals(), 
+                context_instance=RequestContext(request))
 
 class JSONResponse(HttpResponse):
     def __init__(self, data, **kwargs):
@@ -55,8 +73,9 @@ class JSONResponse(HttpResponse):
 @csrf_exempt
 def university_info(request):
     if request.method == 'GET':
-        university = UniversityInfo.objects.all()
-        serializer = UniversitySerializer(university, many=True)
+        univname = request.GET.get('univ')
+        university = UniversityInfo.objects.filter(name=univname)
+        serializer = UniversitySerializer(university)
         return JSONResponse(serializer.data)
 
     elif request.method == 'POST':
